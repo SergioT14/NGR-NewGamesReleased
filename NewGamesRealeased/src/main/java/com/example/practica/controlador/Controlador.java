@@ -7,13 +7,22 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class Controlador {
 	
-	@GetMapping
+	@GetMapping("/")
 	public String inicio(Model modelo) {
 		
 		modelo.addAttribute("tipo","inicio");
 		modelo.addAttribute("contenido","los posts más recientes");
 		
 		return "PlantillaInicio";
+	}
+	
+	@GetMapping("/crear-post")
+	public String crearpost(Model modelo) {
+		
+		modelo.addAttribute("tipo","añadir posts");
+		
+		
+		return "PlantillaNewPost";
 	}
 
 	@GetMapping("/etiquetas")

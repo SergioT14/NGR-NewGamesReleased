@@ -1,8 +1,13 @@
 package com.example.practica.controladores;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +32,7 @@ public class ControladorPagina {
 		
 		modelo.addAttribute("tipo","inicio");
 		modelo.addAttribute("contenido","los posts más recientes");
+		modelo.addAttribute("feed", feed());
 		
 		return "PlantillaInicio";
 	}
@@ -36,9 +42,20 @@ public class ControladorPagina {
 		
 		modelo.addAttribute("tipo","añadir posts");
 		
-		
 		return "PlantillaNewPost";
 	}
+	
+	public List<Post> feed(){
+		return repositorio.findAll();
+	}
+	
+	@PostMapping("/postnuevo")
+	@ResponseStatus(HttpStatus.CREATED)
+	public String postCreate(@RequestBody Post p) {
+		repositorio.save(p);
+		return "postcreado";
+	}
+	
 
 	@GetMapping("/etiquetas")
 	public String etiquetas(Model modelo) {
@@ -57,5 +74,13 @@ public class ControladorPagina {
 		modelo.addAttribute("contenido","los resultados de la búsqueda realizada");
 		
 		return "PlantillaBuscar";
+	}
+	
+	@GetMapping("/post{id}")
+	public ResponseEntity<Post> verPost(@PathVariable long id){
+		Optional <Post> p = repositorio.findById(id);
+		
+		if(p.isPresent())return ResponseEntity.ok(p.get());
+		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }

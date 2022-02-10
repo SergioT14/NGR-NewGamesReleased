@@ -50,8 +50,7 @@ public class ControladorPagina {
 	}
 	
 	@PostMapping("/postnuevo")
-	@ResponseStatus(HttpStatus.CREATED)
-	public String postCreate(@RequestBody Post p) {
+	public String postCreate(Model model, Post p) {
 		repositorio.save(p);
 		return "postcreado";
 	}

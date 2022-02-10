@@ -1,5 +1,13 @@
 {{>encabezado}}
 <p>Hola! Estás en la pestaña de {{tipo}}</p>
-{{>botonnewpost}}
 
+<form action="postnuevo" method="post"
+	<p>Nombre:</p>
+	<p><textarea name='titulo' rows='2' cols='35' style="resize:none"></textarea></p>
+	
+	<p>Contenido:</p>
+	<p><textarea name='contenido' rows='10' cols='50' style="resize:none"></textarea></p>
+	
+	<input type='submit' value='Enviar'>
+</form>
 {{>piepagina}}

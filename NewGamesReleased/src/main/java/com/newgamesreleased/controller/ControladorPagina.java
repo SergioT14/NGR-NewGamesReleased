@@ -1,6 +1,5 @@
 package com.newgamesreleased.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
@@ -19,20 +18,22 @@ import com.newgamesreleased.repository.*;
 public class ControladorPagina {
 	
 	@Autowired
-	private PostRepository repositorio;
+	private PostRepository postRepository;
+	
 	
 	@PostConstruct
 	public void init() {
-		repositorio.save(new Post("Post 1", "Hola que tal"));
-		repositorio.save(new Post("Post 2", "Adios"));
+		postRepository.save(new Post("Post 1", "Hola que tal"));
+		postRepository.save(new Post("Post 2", "Adios"));
 	}
 	
 	@GetMapping("/")
+	@RequestMapping(method = RequestMethod.GET)
 	public String inicio(Model modelo) {
 		
 		modelo.addAttribute("tipo","inicio");
 		modelo.addAttribute("contenido","los posts más recientes");
-		modelo.addAttribute("feed", feed());
+		modelo.addAttribute("posts", postRepository.findAll());
 		
 		return "index";
 	}
@@ -45,13 +46,9 @@ public class ControladorPagina {
 		return "post/nuevo_post";
 	}
 	
-	public List<Post> feed(){
-		return repositorio.findAll();
-	}
-	
 	@PostMapping("/postnuevo")
 	public String postCreate(Model model, Post p) {
-		repositorio.save(p);
+		postRepository.save(p);
 		return "post/post_creado";
 	}
 	
@@ -75,9 +72,9 @@ public class ControladorPagina {
 		return "buscar";
 	}
 	
-	@GetMapping("/post{id}")
+	@GetMapping("/post/{id}")
 	public ResponseEntity<Post> verPost(@PathVariable long id){
-		Optional <Post> p = repositorio.findById(id);
+		Optional <Post> p = postRepository.findById(id);
 		
 		if(p.isPresent())return ResponseEntity.ok(p.get());
 		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);

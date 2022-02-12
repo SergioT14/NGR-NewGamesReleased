@@ -1,4 +1,4 @@
-package com.example.practica.bd.entities;
+package com.newgamesreleased.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

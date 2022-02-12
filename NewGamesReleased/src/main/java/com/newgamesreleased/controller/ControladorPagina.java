@@ -73,10 +73,12 @@ public class ControladorPagina {
 	}
 	
 	@GetMapping("/post/{id}")
-	public ResponseEntity<Post> verPost(@PathVariable long id){
-		Optional <Post> p = postRepository.findById(id);
+	public String verPost(Model model, @PathVariable long id){
 		
-		if(p.isPresent())return ResponseEntity.ok(p.get());
-		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		Post p = postRepository.findById(id).get();
+		
+		model.addAttribute("post",p);
+		
+		return "post/ver_post";
 	}
 }

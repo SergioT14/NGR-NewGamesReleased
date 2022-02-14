@@ -5,7 +5,9 @@
 	<input type="submit" value="Crear un nuevo post" />
 </form>
 {{#posts}}
-<p> <a href="post/{{-index}}"> {{titulo}} </a> {{contenido}}<br>
+<p>> <a href="post/{{id}}"> {{titulo}} </a> </p>
+<p>			{{contenido}} </p>
+<a href="borrar-post/{{id}}" onclick="return confirm('¿Estas seguro?')"> Borrar</a> <a href="editar-post/{{id}}" > Editar</a>
 {{/posts}}
-<br>
+<br></br>
 {{>piepagina}}

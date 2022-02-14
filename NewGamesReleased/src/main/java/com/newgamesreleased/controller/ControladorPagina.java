@@ -1,12 +1,8 @@
 package com.newgamesreleased.controller;
 
-import java.util.Optional;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,12 +42,6 @@ public class ControladorPagina {
 		return "post/nuevo_post";
 	}
 	
-	@PostMapping("/postnuevo")
-	public String postCreate(Model model, Post p) {
-		postRepository.save(p);
-		return "post/post_creado";
-	}
-	
 
 	@GetMapping("/etiquetas")
 	public String etiquetas(Model modelo) {
@@ -80,5 +70,35 @@ public class ControladorPagina {
 		model.addAttribute("post",p);
 		
 		return "post/ver_post";
+	}
+	
+	@PostMapping("/postnuevo")
+	public String postCreate(Model model, Post p) {
+		postRepository.save(p);	
+		return "post/post_creado";
+	}
+	
+	@GetMapping("/editar-post/{id}")
+	public String editarPost(Model model,@PathVariable long id) {
+		Post post = postRepository.getById(id);
+		model.addAttribute("id",id);
+		model.addAttribute("titulo",post.getTitulo());
+		model.addAttribute("contenido", post.getContenido());
+		
+		return "post/editar-post";
+	}
+	
+	@PostMapping("editar-post/cambiarpost/{id}")
+	public String modificarContenidoPost(Model model, Post postModificado, @PathVariable long id) {
+		postModificado.setId(id);
+		postRepository.save(postModificado);
+		
+		return "post/post_editado";
+	}
+	
+	@GetMapping("/borrar-post/{id}")
+	public String deletePost(Model model, @PathVariable long id) {
+		postRepository.deleteById(id);
+		return "post/post_borrado";
 	}
 }

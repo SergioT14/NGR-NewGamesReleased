@@ -14,14 +14,6 @@ public class Post {
 		
 		private String titulo;
 		private String contenido;
-		
-		public long getId() {
-			return id;
-		}
-
-		public void setId(long id) {
-			this.id = id;
-		}
 
 		public Post() {
 		}
@@ -30,6 +22,14 @@ public class Post {
 			super();
 			this.titulo = titulo;
 			this.contenido = contenido;
+		}
+		
+		public long getId() {
+			return id;
+		}
+
+		public void setId(long id) {
+			this.id = id;
 		}
 		
 		public void setTitulo(String titulo) {

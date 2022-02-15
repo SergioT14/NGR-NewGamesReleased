@@ -1,5 +1,6 @@
 package com.newgamesreleased.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,7 +21,7 @@ public class Post {
 		private String contenido;
 		
 		@OneToMany(cascade=CascadeType.ALL)
-		private List<Rating> valoraciones;
+		private List<Rating> valoraciones = new ArrayList<>();
 		
 		public long getId() {
 			return id;

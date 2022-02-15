@@ -71,6 +71,7 @@ public class ControladorPagina {
 		Post p = postRepository.findById(id).get();
 		
 		model.addAttribute("post",p);
+		model.addAttribute("id",id);
 		
 		return "post/ver_post";
 	}
@@ -105,15 +106,16 @@ public class ControladorPagina {
 		return "post/post_borrado";
 	}
 	
-	@GetMapping("/crear-valoracion")
-	public String creavaloracion(Model modelo) {
+	@GetMapping("/post/crear-valoracion/{id}")
+	public String creavaloracion(Model model, @PathVariable long id) {
 		
-		modelo.addAttribute("tipo","crear una valoracion");
+		model.addAttribute("tipo","crear una valoracion");
+		model.addAttribute("id", id);
 		
 		return "nueva_valoracion";
 	}
 	
-	@PostMapping("/crear-valoracion/{id}")
+	@PostMapping("post/crear-valoracion/valoracion-creada/{id}")
 	public String ratingCreate(Model model, Rating r, @PathVariable long id) {
 		ratingRepository.save(r);
 		model.addAttribute("id", id);

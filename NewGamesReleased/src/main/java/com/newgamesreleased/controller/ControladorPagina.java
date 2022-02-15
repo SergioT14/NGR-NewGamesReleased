@@ -16,6 +16,9 @@ public class ControladorPagina {
 	@Autowired
 	private PostRepository postRepository;
 	
+	@Autowired
+	private RatingRepository ratingRepository;
+	
 	
 	@PostConstruct
 	public void init() {
@@ -100,5 +103,20 @@ public class ControladorPagina {
 	public String deletePost(Model model, @PathVariable long id) {
 		postRepository.deleteById(id);
 		return "post/post_borrado";
+	}
+	
+	@GetMapping("/crear-valoracion")
+	public String creavaloracion(Model modelo) {
+		
+		modelo.addAttribute("tipo","crear una valoracion");
+		
+		return "nueva_valoracion";
+	}
+	
+	@PostMapping("/crear-valoracion/{id}")
+	public String ratingCreate(Model model, Rating r, @PathVariable long id) {
+		ratingRepository.save(r);
+		model.addAttribute("id", id);
+		return "valoracion_creada";
 	}
 }

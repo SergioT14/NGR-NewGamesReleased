@@ -1,9 +1,13 @@
 package com.newgamesreleased.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Post {
@@ -14,6 +18,17 @@ public class Post {
 		
 		private String titulo;
 		private String contenido;
+		
+		@OneToMany(cascade=CascadeType.ALL)
+		private List<Rating> valoraciones;
+		
+		public long getId() {
+			return id;
+		}
+
+		public void setId(long id) {
+			this.id = id;
+		}
 
 		public Post() {
 		}
@@ -24,14 +39,6 @@ public class Post {
 			this.contenido = contenido;
 		}
 		
-		public long getId() {
-			return id;
-		}
-
-		public void setId(long id) {
-			this.id = id;
-		}
-		
 		public void setTitulo(String titulo) {
 			this.titulo = titulo;
 		}
@@ -40,12 +47,20 @@ public class Post {
 			this.contenido = contenido;
 		}
 		
+		public void setValoraciones(List<Rating> valoraciones) {
+			this.valoraciones = valoraciones;
+		}
+		
 		public String getTitulo() {
 			return this.titulo;
 		}
 		
 		public String getContenido() {
 			return this.contenido;
+		}
+		
+		public List<Rating> getValoraciones(){
+			return this.valoraciones;
 		}
 		
 		@Override

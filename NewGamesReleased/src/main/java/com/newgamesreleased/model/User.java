@@ -20,6 +20,7 @@ public class User {
 	}
 	
 	public User(String nombre, String contrasenya) {
+		super();
 		this.nombre = nombre;
 		this.contrasenya = contrasenya;
 	}

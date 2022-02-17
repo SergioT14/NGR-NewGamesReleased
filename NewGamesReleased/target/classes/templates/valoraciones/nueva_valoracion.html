@@ -1,0 +1,24 @@
+{{>encabezado}}
+<p>Hola! Estás en la pestaña de {{tipo}}</p>
+
+<form action="valoracion-creada/{{id}}" method="post">
+	
+	<p>Valoracion:</p>
+	<p><textarea name='texto' rows='10' cols='50' style="resize:none"></textarea></p>
+		
+	<p>Puntuación:</p>
+	<select name='puntuacion'>
+		<option>0</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+	</select>	
+	
+	<p>Usuario:</p>
+	<p><textarea name='usuario' rows='1' cols='50' style="resize:none"></textarea></p>
+	
+	<input type='submit' value='Enviar'>
+</form>
+{{>piepagina}}

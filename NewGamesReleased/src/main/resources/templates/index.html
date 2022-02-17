@@ -1,0 +1,13 @@
+{{>encabezado}}
+<p>Hola! Estás en la pestaña de {{tipo}}</p>
+
+<form action="crear-post">
+	<input type="submit" value="Crear un nuevo post" />
+</form>
+{{#posts}}
+<p>> <a href="post/{{id}}"> {{titulo}} </a> </p>
+<p>			{{contenido}} </p>
+<a href="borrar-post/{{id}}" onclick="return confirm('¿Estas seguro?')"> Borrar</a> <a href="editar-post/{{id}}" > Editar</a>
+{{/posts}}
+<br></br>
+{{>piepagina}}

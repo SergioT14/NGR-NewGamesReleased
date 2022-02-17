@@ -1,6 +1,9 @@
 {{>encabezado}}
 <p>Hola! Estás en la pestaña de {{tipo}}</p>
 <p>Aquí encontarás {{contenido}}</p>
+<form action="crear-tag">
+	<input type="submit" value="Crear una nueva etiqueta" />
+</form>
 {{#tags}}
 <p>> <a href="buscar_por_tag/{{id}}"> {{nombre}} </a> </p>
 <a href="borrar-tags/{{id}}" onclick="return confirm('¿Estas seguro?')"> Borrar</a> <a href="editar-tag/{{id}}" > Editar</a>

@@ -169,8 +169,27 @@ public class ControladorPagina {
 	
 	@PostMapping("post/crear-valoracion/valoracion-creada/{id}")
 	public String ratingCreate(Model model, Rating r, @PathVariable long id) {
+		Post post = postRepository.getById(id);
+		List<Rating> valoraciones = post.getValoraciones();
+		valoraciones.add(r);
+		
 		ratingRepository.save(r);
 		model.addAttribute("id", id);
-		return "valoracion_creada";
+		return "valoraciones/valoracion_creada";
+	}
+	
+	@GetMapping("post/borrar-valoracion/{idPost}/{idValoracion}")
+	public String borrarValoracion(Model model, @PathVariable long idPost, @PathVariable long idValoracion) {
+		ratingRepository.deleteById(idValoracion);
+		model.addAttribute("id",idPost);
+		return "valoraciones/valoracion_borrada";
+	}
+	
+	@GetMapping("/usuarios")
+	public String usuarios(Model model) {
+		model.addAttribute("tipo","usuarios");
+		model.addAttribute("contenido", "todos los usuarios de la aplicacion");
+		
+		return ("usuarios/usuarios");
 	}
 }

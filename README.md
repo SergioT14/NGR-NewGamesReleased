@@ -13,3 +13,7 @@ Las entidades son las siguientes:
 - Valoraciones: Valoración basada en puntuación de 0 a 5. Cualquier usuario registrado puede realizar una. Acompañada de un comentario de pocos caracteres.
 
 El servicio interno que se ofrece es un servicio de newsletter, donde se enviarán al correo asociado al usuario novedades sobre las etiquetas que el usuario esté siguiendo.
+
+Las distintas clases y sus relaciones se pueden ver en el siguiente diagrama UML realizado con la herramienta PlantUML:
+
+![dPJVIyCm4CUVtLyH-gHY2xwMCIO-228oHlLbZ76qPwcaIKco3L7_TyrIdRUZ9VXwtnztdsLqRXqOjstbf9HWhNZ4_HsqQ9S84i5YTTDriYd1DLg9rUeLTf2NkiqKxcllCnXisLXmlHRlayz-mwrMpcW9bJOBg1i5exLbS4iq6GkIseMsRecTjetJvkqWy4rfEXF9TN9gpaL71dtb4boZwj](https://user-images.githubusercontent.com/98475235/155020756-d767adc9-2e05-4130-9bcc-d0b4e15f5e38.png)

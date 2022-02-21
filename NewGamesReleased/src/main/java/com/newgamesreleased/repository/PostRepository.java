@@ -9,7 +9,7 @@ import com.newgamesreleased.model.Post;
 
 public interface PostRepository extends JpaRepository<Post,Long>{
 
-	@Query("select u from Post u where UPPER(u.titulo) = UPPER(?1) or UPPER(u.contenido) LIKE CONCAT ('%',?1,'%')")
+	@Query("select u from Post u where UPPER(u.titulo) LIKE UPPER(CONCAT ('%',?1,'%')) or UPPER(u.contenido) LIKE UPPER(CONCAT ('%',?1,'%'))")
 	List<Post> findByTituloOrContenido(String texto);
 	
 }

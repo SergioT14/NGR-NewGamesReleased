@@ -127,7 +127,10 @@ public class ControladorPagina {
 	public String buscar(Model model, @RequestParam String texto) {
 		
 		model.addAttribute("tipo","búsqueda");
-		model.addAttribute("what",texto);
+		model.addAttribute("posts",postRepository.findByTituloOrContenido(texto));
+		model.addAttribute("ratings",ratingRepository.findByUsuarioOrContenido(texto));
+		model.addAttribute("tags",tagRepository.findByNombre(texto));
+		model.addAttribute("users",userRepository.findByUsuario(texto));
 		model.addAttribute("contenido","los resultados de la búsqueda realizada");
 		
 		return "buscar";

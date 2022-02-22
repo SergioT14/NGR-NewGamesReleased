@@ -1,4 +1,3 @@
-{{>encabezado}}
 <p>Hola! Estás en la pestaña de {{tipo}}</p>
 
 <form action="valoracion-creada/{{id}}" method="post">
@@ -22,6 +21,8 @@
 			<option>{{nombre}}</option>
 		{{/usuarios}}
 	<input type='submit' value='Enviar'>
+	
+	<p><a href="/post/{{id}}">Volver al post</a></p>
 	
 </form>
 {{>piepagina}}

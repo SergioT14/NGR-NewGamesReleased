@@ -5,7 +5,7 @@
 	<input type="submit" value="Crear una nueva etiqueta" />
 </form>
 {{#tags}}
-<p>> <a href="buscar_por_tag/{{id}}"> {{nombre}} </a> </p>
+<p>{{nombre}}</p>
 <a href="borrar-tags/{{id}}" onclick="return confirm('¿Estas seguro?')"> Borrar</a> <a href="editar-tag/{{id}}" > Editar</a>
 {{/tags}}
 {{>piepagina}}

@@ -113,6 +113,18 @@ public class ControladorPagina {
 		return "etiquetas/solicitud_completada";
 	}
 	
+	// Pagina de buscar por etiqueta
+	@GetMapping("/buscar-tag/{id}")
+	public String buscarTag(Model model, @PathVariable long id) {
+		Tag t = tagRepository.getById(id);
+		model.addAttribute("id",id);
+		model.addAttribute("tipo","búsqueda por etiquetas");
+		model.addAttribute("tag",t.getNombre());
+		model.addAttribute("posts",t.getPosts());
+					
+		return "etiquetas/buscar-tag";
+	}
+	
 	// Pagina de buscar
 	@GetMapping("/buscar")
 	public String buscar(Model model, @RequestParam String texto) {

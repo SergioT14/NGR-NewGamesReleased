@@ -1,9 +1,15 @@
 package com.newgamesreleased.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 
 @Entity
 public class Tag {
@@ -14,6 +20,9 @@ public class Tag {
 		
 		private String nombre;
 		
+		@OneToMany(mappedBy ="etiqueta", cascade = CascadeType.MERGE)
+		private List<Post> posts = new ArrayList<>();
+		
 		public Tag() {
 		}
 		
@@ -21,8 +30,6 @@ public class Tag {
 			super();
 			this.nombre = name;
 		}
-		
-		
 		
 		public long getId() {
 			return id;
@@ -40,6 +47,24 @@ public class Tag {
 			this.nombre = nombre;
 		}
 		
+		public List<Post> getPosts() {
+			return posts;
+		}
+
+		public void setPosts(List<Post> posts) {
+			this.posts = posts;
+		}
+		
+		public void addPost(Post post) {
+			posts.add(post);
+			post.setEtiqueta(this);
+		}
+		
+		public void removePost(Post post) {
+			posts.remove(post);
+			post.setEtiqueta(null);
+		}
+
 		@Override
 		public String toString() {
 			return (this.nombre);

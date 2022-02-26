@@ -31,15 +31,17 @@ public class ControladorPagina {
 	
 	@PostConstruct
 	public void init() {
-		postRepository.save(new Post("Post 1", "Hola que tal"));
-		postRepository.save(new Post("Post 2", "Adios"));
 		
-		tagRepository.save(new Tag("League Of Legends"));
+		Tag e1 = new Tag("LeagueOfLegends");
+		Tag e2 = new Tag("Juegos");
+		tagRepository.save(e1);
+		tagRepository.save(e2);
 		
 		userRepository.save(new User("admin","0000"));
 		userRepository.save(new User("user","1234"));
 	}
 	
+	// Pagina de inicio
 	@GetMapping("/")
 	@RequestMapping(method = RequestMethod.GET)
 	public String inicio(Model model) {
@@ -51,15 +53,7 @@ public class ControladorPagina {
 		return "index";
 	}
 	
-	@GetMapping("/crear-post")
-	public String crearpost(Model model) {
-		
-		model.addAttribute("tipo","añadir posts");
-		
-		return "post/nuevo_post";
-	}
-	
-
+	// Pagina de gestion de etiquetas
 	@GetMapping("/etiquetas")
 	public String etiquetas(Model model) {
 		
@@ -70,6 +64,7 @@ public class ControladorPagina {
 		return "etiquetas/etiquetas";
 	}
 	
+	// Pagina de creacion de etiquetas
 	@GetMapping("/crear-tag")
 	public String crearTag(Model model) {
 		
@@ -78,6 +73,7 @@ public class ControladorPagina {
 		return "etiquetas/nueva_tag";
 	}
 	
+	// Pagina de creacion de etiquetas (2)
 	@PostMapping("/tagnueva")
 	public String tagCreate(Model model, Tag t) {
 		tagRepository.save(t);	
@@ -86,14 +82,18 @@ public class ControladorPagina {
 		return "etiquetas/solicitud_completada";
 	}
 	
+	// Pagina de borrado de etiquetas
 	@GetMapping("/borrar-tags/{id}")
 	public String deleteTag(Model model, @PathVariable long id) {
+		List<Post> posts = tagRepository.getById(id).getPosts();
+		postRepository.deleteAll(posts);
 		tagRepository.deleteById(id);
 		
 		model.addAttribute("solicitud", "Etiqueta borrada correctamente");
 		return "etiquetas/solicitud_completada";
 	}
 	
+	// Pagina de edicion de etiquetas
 	@GetMapping("/editar-tag/{id}")
 	public String editarTag(Model model,@PathVariable long id) {
 		Tag t = tagRepository.getById(id);
@@ -103,6 +103,7 @@ public class ControladorPagina {
 		return "etiquetas/editar-tag";
 	}
 	
+	// Pagina de edicion de etiquetas (2)
 	@PostMapping("editar-tag/cambiartag/{id}")
 	public String modificarNombreTag(Model model, Tag tagModificada, @PathVariable long id) {
 		tagModificada.setId(id);
@@ -112,17 +113,7 @@ public class ControladorPagina {
 		return "etiquetas/solicitud_completada";
 	}
 	
-	/*@GetMapping("/buscar_por_tag/{id}")
-	public String buscarPorTag(Model model, @PathVariable long id){
-		
-		Tag t = tagRepository.findById(id).get();
-		
-		model.addAttribute("tag",t);
-		model.addAttribute("id",id);
-		
-		return "etiquetas/buscar_por_tag";
-	}*/
-	
+	// Pagina de buscar
 	@GetMapping("/buscar")
 	public String buscar(Model model, @RequestParam String texto) {
 		
@@ -136,6 +127,17 @@ public class ControladorPagina {
 		return "buscar";
 	}
 	
+	// Pagina de creacion de post
+	@GetMapping("/crear-post")
+	public String crearpost(Model model) {
+			
+		model.addAttribute("tipo","añadir posts");
+		model.addAttribute("etiquetas",tagRepository.findAll());
+			
+		return "post/nuevo_post";
+	}
+	
+	// Pagina de visualizacion de post
 	@GetMapping("/post/{id}")
 	public String verPost(Model model, @PathVariable long id){
 		
@@ -148,14 +150,20 @@ public class ControladorPagina {
 		return "post/ver_post";
 	}
 	
+	// Pagina de creacion de post
 	@PostMapping("/postnuevo")
-	public String postCreate(Model model, Post p) {
+	public String postCreate(Model model, @RequestParam String titulo, 
+			@RequestParam String contenido , @RequestParam String etiqueta) {
+		Post p = new Post(titulo, contenido);
+		Tag e = tagRepository.getByNombre(etiqueta);
+		e.addPost(p);
 		postRepository.save(p);	
 
 		model.addAttribute("solicitud", "Post creado correctamente");
 		return "post/solicitud_completada";
 	}
 	
+	// Pagina de edicion de post
 	@GetMapping("/editar-post/{id}")
 	public String editarPost(Model model,@PathVariable long id) {
 		Post post = postRepository.getById(id);
@@ -166,23 +174,36 @@ public class ControladorPagina {
 		return "post/editar-post";
 	}
 	
+	// Pagina de edicion de post (2)
 	@PostMapping("editar-post/cambiarpost/{id}")
 	public String modificarContenidoPost(Model model, Post postModificado, @PathVariable long id) {
+		Post postAntiguo = postRepository.getById(id);
+		Tag etiqueta = postAntiguo.getEtiqueta();
+		etiqueta.removePost(postAntiguo);
+		
+		etiqueta.addPost(postModificado);
 		postModificado.setId(id);
 		postRepository.save(postModificado);
+		
 		
 		model.addAttribute("solicitud", "Post editado correctamente");
 		return "post/solicitud_completada";
 	}
 	
+	// Pagina de borrado de post
 	@GetMapping("/borrar-post/{id}")
 	public String deletePost(Model model, @PathVariable long id) {
+		Post p = postRepository.getById(id);
+		Tag etiqueta = p.getEtiqueta();
+		etiqueta.removePost(p);
+		
 		postRepository.deleteById(id);
 		
 		model.addAttribute("solicitud", "Post borrado correctamente");
 		return "post/solicitud_completada";
 	}
 	
+	// Pagina de creacion de valoracion
 	@GetMapping("/post/crear-valoracion/{id}")
 	public String creaValoracion(Model model, @PathVariable long id) {
 		
@@ -193,6 +214,7 @@ public class ControladorPagina {
 		return "valoraciones/nueva_valoracion";
 	}
 	
+	// Pagina de creacion de valoracion (2)
 	@PostMapping("post/crear-valoracion/valoracion-creada/{id}")
 	public String ratingCreate(Model model, Rating r, @PathVariable long id) {
 		Post post = postRepository.getById(id);
@@ -205,6 +227,7 @@ public class ControladorPagina {
 		return "valoraciones/solicitud_completada";
 	}
 	
+	// Pagina de borrado de valoraciones
 	@GetMapping("post/borrar-valoracion/{idPost}/{idValoracion}")
 	public String borrarValoracion(Model model, @PathVariable long idPost, @PathVariable long idValoracion) {
 		Post p = postRepository.getById(idPost);
@@ -217,6 +240,7 @@ public class ControladorPagina {
 		return "valoraciones/solicitud_completada";
 	}
 	
+	// Pagina de gestion de usuarios
 	@GetMapping("/usuarios")
 	public String usuarios(Model model) {
 		model.addAttribute("tipo","usuarios");
@@ -226,6 +250,7 @@ public class ControladorPagina {
 		return "usuarios/usuarios";
 	}
 	
+	// Pagina de creacion de usuarios
 	@GetMapping("/usuarios/registrar-usuario")
 	public String registrarUsuario(Model model) {
 		model.addAttribute("tipo","registro de usuarios");
@@ -233,6 +258,7 @@ public class ControladorPagina {
 		return "usuarios/registrar_usuario";
 	}
 	
+	// Pagina de creacion de usuarios (2)
 	@PostMapping("/usuarios/usuario-registrado")
 	public String usuarioRegistrado(Model model, User usuario) {
 		userRepository.save(usuario);
@@ -240,6 +266,7 @@ public class ControladorPagina {
 		return "usuarios/solicitud_completada";
 	}
 	
+	// Pagina de borrado de usuarios
 	@GetMapping("/usuarios/borrar-usuario/{id}")
 	public String borrarUsuario(Model model, @PathVariable long id) {
 		userRepository.deleteById(id);
@@ -247,6 +274,7 @@ public class ControladorPagina {
 		return "usuarios/solicitud_completada";
 	}
 	
+	// Pagina de edicion de usuario
 	@GetMapping("/usuarios/editar-usuario/{id}")
 	public String editarUsuario(Model model, @PathVariable long id) {
 		User usuario = userRepository.getById(id);
@@ -258,6 +286,7 @@ public class ControladorPagina {
 		return "usuarios/editar_usuario";
 	}
 	
+	// Pagina de edicion de usuario
 	@PostMapping("/usuarios/editar-usuario/usuario-editado/{id}")
 	public String usuarioEditado(Model model, User usuarioModificado, @PathVariable long id) {
 		usuarioModificado.setId(id);

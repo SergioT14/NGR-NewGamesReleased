@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -18,6 +19,9 @@ public class User {
 	
 	private String nombre;
 	private String contrasenya;
+	
+	@OneToMany(mappedBy ="usuario")
+	private List<Rating> valoraciones = new ArrayList<>();
 	
 	@ManyToMany
 	List <Tag> suscripciones = new ArrayList<>();
@@ -72,9 +76,28 @@ public class User {
 		etiqueta.getSuscritos().remove(this);
 	}
 
+	public List<Rating> getValoraciones() {
+		return valoraciones;
+	}
+
+	public void setValoraciones(List<Rating> valoraciones) {
+		this.valoraciones = valoraciones;
+	}
+
+	public void addRating(Rating r) {
+		valoraciones.add(r);
+		r.setUsuario(this);
+	}
+	
+	public void removeRating(Rating r) {
+		valoraciones.remove(r);
+		r.setUsuario(null);
+	}
+	
+	//Sin la contraseña en el toString por razones obvias
 	@Override
 	public String toString() {
-		return ("Nombre de usuario: " + nombre + " Contrasenya: " + contrasenya);
+		return ("Nombre de usuario: " + nombre);
 	}
 	
 

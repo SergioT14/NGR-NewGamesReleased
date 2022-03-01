@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Rating {
@@ -12,21 +13,23 @@ public class Rating {
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		private long id;
 		
-		private String usuario;
+		@ManyToOne
+		private User usuario;
+		
 		private String texto;
 		private int puntuacion;
 		
 		public Rating() {
 		}
 		
-		public Rating(String user, String txt, int puntuacion) {
+		public Rating(String txt, int puntuacion, User user) {
 			super();
 			this.usuario = user;
 			this.texto = txt;
 			this.puntuacion = puntuacion;
 		}
 		
-		public void setUsuario(String user) {
+		public void setUsuario(User user) {
 			this.usuario = user;
 		}
 		
@@ -38,7 +41,7 @@ public class Rating {
 			this.puntuacion = puntuacion;
 		}
 		
-		public String getUsuario() {
+		public User getUsuario() {
 			return this.usuario;
 		}
 		

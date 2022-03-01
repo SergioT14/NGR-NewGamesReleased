@@ -85,8 +85,20 @@ public class ControladorPagina {
 	// Pagina de borrado de etiquetas
 	@GetMapping("/borrar-tags/{id}")
 	public String deleteTag(Model model, @PathVariable long id) {
-		List<Post> posts = tagRepository.getById(id).getPosts();
-		postRepository.deleteAll(posts);
+		Tag etiqueta = tagRepository.getById(id);
+		
+		List<Post> posts = etiqueta.getPosts();
+		for(int i = 0; i < posts.size(); i++) 
+			posts.get(i).setEtiqueta(null);
+			
+		List<User> usuarios = etiqueta.getSuscritos();
+		User usuario;
+		for(int i = 0; i < usuarios.size(); i++) {
+			usuario = usuarios.get(i);
+			usuario.removeSuscripcion(etiqueta);
+			userRepository.save(usuario);
+		}
+		
 		tagRepository.deleteById(id);
 		
 		model.addAttribute("solicitud", "Etiqueta borrada correctamente");
@@ -152,8 +164,11 @@ public class ControladorPagina {
 	// Pagina de visualizacion de post
 	@GetMapping("/post/{id}")
 	public String verPost(Model model, @PathVariable long id){
-		
 		Post p = postRepository.findById(id).get();
+		if(p.getEtiqueta() == null) 
+			model.addAttribute("etiqueta", "None");
+		else
+			model.addAttribute("etiqueta", p.getEtiqueta());
 		
 		model.addAttribute("post",p);
 		model.addAttribute("idPost",id);
@@ -313,5 +328,33 @@ public class ControladorPagina {
 		
 		model.addAttribute("solicitud", "Usuario modificado correctamente");
 		return "usuarios/solicitud_completada";
+	}
+	
+	// Pagina de suscripcion
+	@PostMapping("/suscribirse/{id}")
+	public String suscribirseAEtiqueta(Model model, @PathVariable long id) {
+		Tag etiqueta = tagRepository.findById(id).get();
+		User usuarioAdmin = userRepository.findById((long)3).get();
+		usuarioAdmin.addSuscripcion(etiqueta);
+		userRepository.save(usuarioAdmin);
+		tagRepository.save(etiqueta);
+		
+		model.addAttribute("solicitud", "Suscripcion realizada con exito");
+		
+		return "etiquetas/solicitud_completada";
+	}
+	
+	// Pagina de desuscripcion
+	@PostMapping("/desuscribirse/{id}")
+	public String desuscribirseDeEtiqueta(Model model, @PathVariable long id) {
+		Tag etiqueta = tagRepository.findById(id).get();
+		User usuarioAdmin = userRepository.findById((long)3).get();
+		usuarioAdmin.removeSuscripcion(etiqueta);
+		userRepository.save(usuarioAdmin);
+		tagRepository.save(etiqueta);
+		
+		model.addAttribute("solicitud", "Desuscripcion realizada con exito");
+		
+		return "etiquetas/solicitud_completada";
 	}
 }

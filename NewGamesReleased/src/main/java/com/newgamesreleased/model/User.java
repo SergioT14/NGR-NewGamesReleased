@@ -1,9 +1,14 @@
 package com.newgamesreleased.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -14,6 +19,9 @@ public class User {
 	
 	private String nombre;
 	private String contrasenya;
+	
+	@OneToMany(mappedBy ="valoracion", cascade = CascadeType.MERGE)
+	private List<Rating> valoraciones = new ArrayList<>();
 	
 	public User() {
 		
@@ -47,6 +55,24 @@ public class User {
 		this.contrasenya = contraseña;
 	}
 	
+	public List<Rating> getValoraciones() {
+		return valoraciones;
+	}
+
+	public void setValoraciones(List<Rating> valoraciones) {
+		this.valoraciones = valoraciones;
+	}
+	
+	public void addRating(Rating r) {
+		valoraciones.add(r);
+		r.setUsuario(this);
+	}
+	
+	public void removeRating(Rating r) {
+		valoraciones.remove(r);
+		r.setUsuario(null);
+	}
+
 	@Override
 	public String toString() {
 		return ("Nombre de usuario: " + nombre + " Contrasenya: " + contrasenya);

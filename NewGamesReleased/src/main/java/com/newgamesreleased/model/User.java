@@ -3,12 +3,11 @@ package com.newgamesreleased.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -20,8 +19,8 @@ public class User {
 	private String nombre;
 	private String contrasenya;
 	
-	@OneToMany(mappedBy ="valoracion", cascade = CascadeType.MERGE)
-	private List<Rating> valoraciones = new ArrayList<>();
+	@ManyToMany
+	List <Tag> suscripciones = new ArrayList<>();
 	
 	public User() {
 		
@@ -55,22 +54,22 @@ public class User {
 		this.contrasenya = contraseña;
 	}
 	
-	public List<Rating> getValoraciones() {
-		return valoraciones;
+	public List<Tag> getSuscripciones() {
+		return suscripciones;
 	}
 
-	public void setValoraciones(List<Rating> valoraciones) {
-		this.valoraciones = valoraciones;
+	public void setSuscripciones(List<Tag> suscripciones) {
+		this.suscripciones = suscripciones;
 	}
 	
-	public void addRating(Rating r) {
-		valoraciones.add(r);
-		r.setUsuario(this);
+	public void addSuscripcion(Tag etiqueta) {
+		suscripciones.add(etiqueta);
+		etiqueta.getSuscritos().add(this);
 	}
 	
-	public void removeRating(Rating r) {
-		valoraciones.remove(r);
-		r.setUsuario(null);
+	public void removeSuscripcion(Tag etiqueta) {
+		suscripciones.remove(etiqueta);
+		etiqueta.getSuscritos().remove(this);
 	}
 
 	@Override

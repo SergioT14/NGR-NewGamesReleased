@@ -3,11 +3,11 @@ package com.newgamesreleased.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 
@@ -20,8 +20,11 @@ public class Tag {
 		
 		private String nombre;
 		
-		@OneToMany(mappedBy ="etiqueta", cascade = CascadeType.MERGE)
+		@OneToMany(mappedBy ="etiqueta")
 		private List<Post> posts = new ArrayList<>();
+		
+		@ManyToMany(mappedBy = "suscripciones")
+		private List<User> suscritos = new ArrayList<>();
 		
 		public Tag() {
 		}
@@ -63,6 +66,14 @@ public class Tag {
 		public void removePost(Post post) {
 			posts.remove(post);
 			post.setEtiqueta(null);
+		}
+
+		public List<User> getSuscritos() {
+			return suscritos;
+		}
+
+		public void setSuscritos(List<User> suscritos) {
+			this.suscritos = suscritos;
 		}
 
 		@Override

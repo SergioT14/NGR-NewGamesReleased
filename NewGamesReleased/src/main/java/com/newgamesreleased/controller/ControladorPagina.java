@@ -229,7 +229,7 @@ public class ControladorPagina {
 		model.addAttribute("solicitud", "Post borrado correctamente");
 		return "post/solicitud_completada";
 	}
-		
+	
 	// Pagina de creacion de valoracion
 	@GetMapping("/post/crear-valoracion/{id}")
 	public String creaValoracion(Model model, @PathVariable long id) {
@@ -243,19 +243,12 @@ public class ControladorPagina {
 	
 	// Pagina de creacion de valoracion (2)
 	@PostMapping("post/crear-valoracion/valoracion-creada/{id}")
-	public String ratingCreate(Model model, @RequestParam String texto, 
-			@RequestParam String puntuacion , @RequestParam String usuario, @PathVariable long id) {
-		
-		int punt = Integer.parseInt(puntuacion);
-		User u = userRepository.getByNombre(usuario);
-		Rating r = new Rating(texto, punt, u);
-		u.addRating(r);
-		ratingRepository.save(r);	
-		
+	public String ratingCreate(Model model, Rating r, @PathVariable long id) {
 		Post post = postRepository.getById(id);
 		List<Rating> valoraciones = post.getValoraciones();
 		valoraciones.add(r);
 		
+		ratingRepository.save(r);
 		model.addAttribute("id", id);
 		model.addAttribute("solicitud", "Valoracion creada correctamente");
 		return "valoraciones/solicitud_completada";

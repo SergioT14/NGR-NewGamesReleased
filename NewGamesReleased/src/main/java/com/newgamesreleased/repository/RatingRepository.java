@@ -10,6 +10,6 @@ import com.newgamesreleased.model.Rating;
 public interface RatingRepository extends JpaRepository<Rating,Long>{
 	
 	
-	@Query("select u from Rating u where UPPER(u.usuario) LIKE UPPER(CONCAT ('%',?1,'%')) Or UPPER(u.texto) LIKE UPPER(CONCAT ('%',?1,'%'))")
+	@Query("select u from Rating u where UPPER(u.usuario.nombre) LIKE UPPER(CONCAT ('%',?1,'%')) Or UPPER(u.texto) LIKE UPPER(CONCAT ('%',?1,'%'))")
 	List<Rating> findByUsuarioOrContenido(String texto);
 }

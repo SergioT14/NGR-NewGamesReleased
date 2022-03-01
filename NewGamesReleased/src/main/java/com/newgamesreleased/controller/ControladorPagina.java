@@ -243,7 +243,14 @@ public class ControladorPagina {
 	
 	// Pagina de creacion de valoracion (2)
 	@PostMapping("post/crear-valoracion/valoracion-creada/{id}")
-	public String ratingCreate(Model model, Rating r, @PathVariable long id) {
+	public String ratingCreate(Model model, @PathVariable long id, @RequestParam String texto, 
+			@RequestParam String puntuacion , @RequestParam String usuario) {
+		
+		int punt = Integer.parseInt(puntuacion);
+		User u = userRepository.getByNombre(usuario);
+		Rating r = new Rating(u,texto,punt);
+		u.addRating(r);
+		
 		Post post = postRepository.getById(id);
 		List<Rating> valoraciones = post.getValoraciones();
 		valoraciones.add(r);

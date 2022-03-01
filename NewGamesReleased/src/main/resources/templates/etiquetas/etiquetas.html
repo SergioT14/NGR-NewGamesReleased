@@ -5,7 +5,14 @@
 	<input type="submit" value="Crear una nueva etiqueta" />
 </form>
 {{#tags}}
-<p><a href="buscar-tag/{{id}}">{{nombre}}</p>
+<p><a href="buscar-tag/{{id}}">{{nombre}}</a>			
+<form action = "suscribirse/{{id}}" method="post">
+	<input type="submit" value="Suscribirse"/>
+</form>
+<form action = "desuscribirse/{{id}}" method = "post">
+	<input type="submit" value="Desuscribirse"/>
+</form>
+</p>  
 <a href="borrar-tags/{{id}}" onclick="return confirm('¿Estas seguro?')"> Borrar</a> <a href="editar-tag/{{id}}" > Editar</a>
 <br></br>
 {{/tags}}

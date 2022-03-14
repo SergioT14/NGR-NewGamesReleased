@@ -58,6 +58,37 @@ public class ControladorPagina {
 		return "index";
 	}
 	
+	// Inicio de sesion
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+
+	// error de inicio de sesion
+	@GetMapping("/loginerror")
+	public String loginerror() {
+		return "loginerror";
+	}
+
+	// error general
+	@GetMapping("/error")
+	public String error() {
+		return "error";
+	}
+	
+	//Registro
+	@GetMapping("/signup")
+	public String registro() {
+		return "registro";
+	}
+	
+	//Registro completado
+	@PostMapping("/signup-ok")
+	public String registrado(Model model, User usuario) {
+		userRepository.save(usuario);
+		return "registro_completado";
+	}
+	
 	// Pagina de gestion de etiquetas
 	@GetMapping("/etiquetas")
 	public String etiquetas(Model model) {
@@ -289,22 +320,6 @@ public class ControladorPagina {
 		model.addAttribute("usuarios", userRepository.findAll());
 		
 		return "usuarios/usuarios";
-	}
-	
-	// Pagina de creacion de usuarios
-	@GetMapping("/usuarios/registrar-usuario")
-	public String registrarUsuario(Model model) {
-		model.addAttribute("tipo","registro de usuarios");
-		
-		return "usuarios/registrar_usuario";
-	}
-	
-	// Pagina de creacion de usuarios (2)
-	@PostMapping("/usuarios/usuario-registrado")
-	public String usuarioRegistrado(Model model, User usuario) {
-		userRepository.save(usuario);
-		model.addAttribute("solicitud", "Usuario registrado correctamente");
-		return "usuarios/solicitud_completada";
 	}
 	
 	// Pagina de borrado de usuarios

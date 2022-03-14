@@ -1,0 +1,14 @@
+
+<p> Estas editando esta etiqueta:</p>
+
+<p>{{nombre}} </p>
+
+
+<form action="cambiartag/{{id}}" method="post">
+	<p>Nombre:</p>
+	<p><textarea name='nombre' rows='1' cols='30' style="resize:none">{{nombre}}</textarea></p>
+	
+	<input type='submit' value='Enviar'>
+</form>
+<p><a href="/">Volver al feed</a></p>
+{{>piepagina}}

@@ -1,0 +1,24 @@
+{{>encabezado}}
+<p>Hola! Estás en la pestaña de {{tipo}}, donde encontrarás {{contenido}}</p>
+
+<p>Posts:</p>
+{{#posts}}
+<p> <a href="post/{{id}}"> {{titulo}} </a> </p>
+{{/posts}}
+
+<p>Valoraciones:</p>
+{{#ratings}}
+<p> {{usuario}} - PUNTUACIÓN: {{puntuacion}} - COMENTARIO: {{texto}}<p>
+{{/ratings}}
+
+<p>Etiquetas:</p>
+{{#tags}}
+<p> {{nombre}} </p>
+{{/tags}}
+
+<p>Usuarios:</p>
+{{#users}}
+<p> {{nombre}} </a> </p>
+{{/users}}
+
+{{>piepagina}}

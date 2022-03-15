@@ -1,9 +1,11 @@
 {{>encabezado}}
 <p>Hola! Estás en la pestaña de {{tipo}}</p>
 <p>Aquí encontarás {{contenido}}</p>
+{{#admin}}
 <form action="crear-tag">
 	<input type="submit" value="Crear una nueva etiqueta" />
 </form>
+{{/admin}}
 {{#tags}}
 <p><a href="buscar-tag/{{id}}">{{nombre}}</a>			
 <form action = "suscribirse/{{id}}" method="post">

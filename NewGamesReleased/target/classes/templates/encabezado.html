@@ -24,6 +24,7 @@
 	<input type="submit" value="Búsqueda" />
 </form>
 
+{{#notauser}}
 <form action="login">
     <input type="submit" value="Iniciar sesion" />
 </form>
@@ -31,3 +32,10 @@
 <form action="signup">
     <input type="submit" value="Registrarse" />
 </form>
+{{/notauser}}
+
+{{#auser}}
+<form action="logout">
+    <input type="submit" value="Cerrar sesión" />
+</form>
+{{/auser}}

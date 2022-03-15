@@ -3,8 +3,10 @@ package com.newgamesreleased.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +34,7 @@ public class ControladorPagina {
 	
 	@Autowired
 	private PostService postService;
-	
+
 	
 	@PostConstruct
 	public void init() {
@@ -42,14 +44,17 @@ public class ControladorPagina {
 		tagRepository.save(e1);
 		tagRepository.save(e2);
 		
-		userRepository.save(new User("admin","0000"));
-		userRepository.save(new User("user","1234"));
+		userRepository.save(new User("admin","0000","newgamesreleaseddad@gmail.com"));
+		userRepository.save(new User("user","1234","soyuser@email.com"));
 	}
 	
 	// Pagina de inicio
 	@GetMapping("/")
 	@RequestMapping(method = RequestMethod.GET)
-	public String inicio(Model model) {
+	public String inicio(Model model, HttpServletRequest req) {
+		model.addAttribute("notauser", req.getUserPrincipal()==null);
+		model.addAttribute("auser", req.getUserPrincipal()!=null);
+		model.addAttribute("admin", req.isUserInRole("ADMIN"));
 		
 		model.addAttribute("tipo","inicio");
 		model.addAttribute("contenido","los posts más recientes");
@@ -60,7 +65,9 @@ public class ControladorPagina {
 	
 	// Inicio de sesion
 	@GetMapping("/login")
-	public String login() {
+	public String login(Model model, HttpServletRequest request) {
+		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+		model.addAttribute("token", token.getToken()); 
 		return "login";
 	}
 
@@ -82,6 +89,12 @@ public class ControladorPagina {
 		return "registro";
 	}
 	
+	//Registro
+	@GetMapping("/logout")
+	public String logout() {
+		return "logout";
+	}
+	
 	//Registro completado
 	@PostMapping("/signup-ok")
 	public String registrado(Model model, User usuario) {
@@ -91,7 +104,10 @@ public class ControladorPagina {
 	
 	// Pagina de gestion de etiquetas
 	@GetMapping("/etiquetas")
-	public String etiquetas(Model model) {
+	public String etiquetas(Model model, HttpServletRequest req) {
+		model.addAttribute("notauser", req.getUserPrincipal()==null);
+		model.addAttribute("auser", req.getUserPrincipal()!=null);
+		model.addAttribute("admin", req.isUserInRole("ADMIN"));
 		
 		model.addAttribute("tipo","etiquetas");
 		model.addAttribute("contenido","todas las etiquetas para buscar de manera filtrada");
@@ -163,7 +179,9 @@ public class ControladorPagina {
 	
 	// Pagina de buscar por etiqueta
 	@GetMapping("/buscar-tag/{id}")
-	public String buscarTag(Model model, @PathVariable long id) {
+	public String buscarTag(Model model, @PathVariable long id, HttpServletRequest req) {
+		model.addAttribute("notauser", req.getUserPrincipal()==null);
+		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		Tag t = tagRepository.getById(id);
 		model.addAttribute("id",id);
 		model.addAttribute("tipo","búsqueda por etiquetas");
@@ -175,7 +193,9 @@ public class ControladorPagina {
 	
 	// Pagina de buscar
 	@GetMapping("/buscar")
-	public String buscar(Model model, @RequestParam String texto) {
+	public String buscar(Model model, @RequestParam String texto, HttpServletRequest req) {
+		model.addAttribute("notauser", req.getUserPrincipal()==null);
+		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		
 		model.addAttribute("tipo","búsqueda");
 		model.addAttribute("posts",postRepository.findByTituloOrContenido(texto));
@@ -314,7 +334,10 @@ public class ControladorPagina {
 	
 	// Pagina de gestion de usuarios
 	@GetMapping("/usuarios")
-	public String usuarios(Model model) {
+	public String usuarios(Model model, HttpServletRequest req) {
+		model.addAttribute("notauser", req.getUserPrincipal()==null);
+		model.addAttribute("auser", req.getUserPrincipal()!=null);
+		
 		model.addAttribute("tipo","usuarios");
 		model.addAttribute("contenido", "todos los usuarios de la aplicacion");
 		model.addAttribute("usuarios", userRepository.findAll());

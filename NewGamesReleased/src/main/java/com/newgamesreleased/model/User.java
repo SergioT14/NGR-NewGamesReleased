@@ -19,6 +19,7 @@ public class User {
 	
 	private String nombre;
 	private String contrasenya;
+	private String email;
 	
 	@OneToMany(mappedBy ="usuario")
 	private List<Rating> valoraciones = new ArrayList<>();
@@ -30,10 +31,11 @@ public class User {
 		
 	}
 	
-	public User(String nombre, String contrasenya) {
+	public User(String nombre, String contrasenya, String email) {
 		super();
 		this.nombre = nombre;
 		this.contrasenya = contrasenya;
+		this.email = email;
 	}
 	
 	
@@ -58,6 +60,14 @@ public class User {
 		this.contrasenya = contraseña;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public List<Tag> getSuscripciones() {
 		return suscripciones;
 	}

@@ -1,25 +1,31 @@
 package com.newgamesreleased.configs;
 
+import java.security.SecureRandom;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	RepositoryUserDetailsService userDetailsService;
+	
+	@Bean
+	public PasswordEncoder passEncoder() {
+		return new BCryptPasswordEncoder(10, new SecureRandom());
+	}
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
-		String passuser = encoder.encode("pass");
-		String passadmin = encoder.encode("passadmin");
-
-		auth.inMemoryAuthentication().withUser("user").password(passuser).roles("USER");
-		auth.inMemoryAuthentication().withUser("admin").password(passadmin).roles("USER", "ADMIN");
+		auth.userDetailsService(userDetailsService).passwordEncoder(passEncoder());
 	}
 
 	@Override

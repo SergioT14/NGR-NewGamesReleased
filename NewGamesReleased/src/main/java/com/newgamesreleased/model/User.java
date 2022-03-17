@@ -3,7 +3,9 @@ package com.newgamesreleased.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +25,9 @@ public class User {
 	private String contrasenya;
 	private String email;
 	
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<String> roles;
+	
 	@OneToMany(mappedBy ="usuario")
 	private List<Rating> valoraciones = new ArrayList<>();
 	
@@ -34,11 +39,12 @@ public class User {
 		
 	}
 	
-	public User(String nombre, String contrasenya, String email) {
+	public User(String nombre, String contrasenya, String email, String... roles) {
 		super();
 		this.nombre = nombre;
 		this.contrasenya = contrasenya;
 		this.email = email;
+		this.roles = List.of(roles);
 	}
 	
 	
@@ -69,6 +75,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 
 	public List<Tag> getSuscripciones() {

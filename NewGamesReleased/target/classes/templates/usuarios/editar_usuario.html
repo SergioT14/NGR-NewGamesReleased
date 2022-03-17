@@ -1,3 +1,4 @@
+<p> Hola {{nombreuser}}, estás editando el siguiente usuario:</p>
 
 <form action="usuario-editado/{{id}}" method="post">
 	
@@ -6,6 +7,9 @@
 		
 	<p>Contraseña:</p>
 	<p><textarea name='contrasenya' rows='1' cols='50' style="resize:none">{{contrasenya}}</textarea></p>
+	
+	<p>Email:</p>
+	<p><textarea name='email' rows='1' cols='50' style="resize:none">{{email}}</textarea></p>
 	
 	<input type='submit' value='Editar'>
 </form>

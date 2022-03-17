@@ -14,8 +14,6 @@ import com.newgamesreleased.model.*;
 import com.newgamesreleased.repository.*;
 import com.newgamesreleased.service.PostService;
 
-
-
 @Controller
 public class ControladorPagina {
 	
@@ -43,14 +41,16 @@ public class ControladorPagina {
 		tagRepository.save(e1);
 		tagRepository.save(e2);
 		
-		userRepository.save(new User("admin","0000","newgamesreleaseddad@gmail.com"));
-		userRepository.save(new User("user","1234","soyuser@email.com"));
 	}
 	
 	// Pagina de inicio
 	@GetMapping("/")
 	@RequestMapping(method = RequestMethod.GET)
 	public String inicio(Model model, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		model.addAttribute("admin", req.isUserInRole("ADMIN"));
@@ -64,7 +64,7 @@ public class ControladorPagina {
 	
 	// Inicio de sesion
 	@GetMapping("/login")
-	public String login() {
+	public String login() { 
 		return "login";
 	}
 
@@ -99,7 +99,10 @@ public class ControladorPagina {
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		model.addAttribute("admin", req.isUserInRole("ADMIN"));
-		
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
 		model.addAttribute("tipo","etiquetas");
 		model.addAttribute("contenido","todas las etiquetas para buscar de manera filtrada");
 		model.addAttribute("tags", tagRepository.findAll());
@@ -109,7 +112,11 @@ public class ControladorPagina {
 	
 	// Pagina de creacion de etiquetas
 	@GetMapping("/crear-tag")
-	public String crearTag(Model model) {
+	public String crearTag(Model model, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
 		
 		model.addAttribute("tipo","añadir etiquetas");
 		
@@ -150,7 +157,12 @@ public class ControladorPagina {
 	
 	// Pagina de edicion de etiquetas
 	@GetMapping("/editar-tag/{id}")
-	public String editarTag(Model model,@PathVariable long id) {
+	public String editarTag(Model model,@PathVariable long id, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
+		
 		Tag t = tagRepository.getById(id);
 		model.addAttribute("id",id);
 		model.addAttribute("nombre",t.getNombre());
@@ -171,6 +183,11 @@ public class ControladorPagina {
 	// Pagina de buscar por etiqueta
 	@GetMapping("/buscar-tag/{id}")
 	public String buscarTag(Model model, @PathVariable long id, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
+		
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		Tag t = tagRepository.getById(id);
@@ -185,22 +202,30 @@ public class ControladorPagina {
 	// Pagina de buscar
 	@GetMapping("/buscar")
 	public String buscar(Model model, @RequestParam String texto, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
+		
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		
-		model.addAttribute("tipo","búsqueda");
 		model.addAttribute("posts",postRepository.findByTituloOrContenido(texto));
 		model.addAttribute("ratings",ratingRepository.findByUsuarioOrContenido(texto));
 		model.addAttribute("tags",tagRepository.findByNombre(texto));
 		model.addAttribute("users",userRepository.findByUsuario(texto));
-		model.addAttribute("contenido","los resultados de la búsqueda realizada");
+		model.addAttribute("contenido",texto);
 		
 		return "buscar";
 	}
 	
 	// Pagina de creacion de post
 	@GetMapping("/crear-post")
-	public String crearpost(Model model) {
+	public String crearpost(Model model, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
 			
 		model.addAttribute("tipo","añadir posts");
 		model.addAttribute("etiquetas",tagRepository.findAll());
@@ -210,7 +235,12 @@ public class ControladorPagina {
 	
 	// Pagina de visualizacion de post
 	@GetMapping("/post/{id}")
-	public String verPost(Model model, @PathVariable long id){
+	public String verPost(Model model, @PathVariable long id, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
+		
 		Post p = postRepository.findById(id).get();
 		if(p.getEtiqueta() == null) 
 			model.addAttribute("etiqueta", "None");
@@ -241,7 +271,12 @@ public class ControladorPagina {
 	
 	// Pagina de edicion de post
 	@GetMapping("/editar-post/{id}")
-	public String editarPost(Model model,@PathVariable long id) {
+	public String editarPost(Model model,@PathVariable long id, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
+		
 		Post post = postRepository.getById(id);
 		model.addAttribute("id",id);
 		model.addAttribute("titulo",post.getTitulo());
@@ -281,7 +316,11 @@ public class ControladorPagina {
 	
 	// Pagina de creacion de valoracion
 	@GetMapping("/post/crear-valoracion/{id}")
-	public String creaValoracion(Model model, @PathVariable long id) {
+	public String creaValoracion(Model model, @PathVariable long id, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
 		
 		model.addAttribute("tipo","crear una valoracion");
 		model.addAttribute("id", id);
@@ -326,6 +365,11 @@ public class ControladorPagina {
 	// Pagina de gestion de usuarios
 	@GetMapping("/usuarios")
 	public String usuarios(Model model, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
+		
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		
@@ -346,7 +390,12 @@ public class ControladorPagina {
 	
 	// Pagina de edicion de usuario
 	@GetMapping("/usuarios/editar-usuario/{id}")
-	public String editarUsuario(Model model, @PathVariable long id) {
+	public String editarUsuario(Model model, @PathVariable long id, HttpServletRequest req) {
+		String nombre = req.getUserPrincipal().getName();
+		User u = userRepository.getByNombre(nombre);
+
+		model.addAttribute("nombreuser", u.getNombre());
+		
 		User usuario = userRepository.getById(id);
 		
 		model.addAttribute("id", id);

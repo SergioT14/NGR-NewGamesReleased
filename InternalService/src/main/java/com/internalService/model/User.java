@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class User {
@@ -20,11 +22,13 @@ public class User {
 	
 	private String nombre;
 	private String contrasenya;
+	private String email;
 	
 	@OneToMany(mappedBy ="usuario")
 	private List<Rating> valoraciones = new ArrayList<>();
 	
 	@ManyToMany
+	@JsonIgnore
 	List <Tag> suscripciones = new ArrayList<>();
 	
 	public User() {
@@ -59,6 +63,14 @@ public class User {
 		this.contrasenya = contraseña;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public List<Tag> getSuscripciones() {
 		return suscripciones;
 	}

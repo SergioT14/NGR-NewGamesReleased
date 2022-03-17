@@ -81,7 +81,7 @@ public class Post{
 
 		@Override
 		public String toString() {
-			return (this.titulo + "\n" + this.contenido);
+			return ("Titulo: " + this.titulo + "\nContenido: " + this.contenido + "\nEtiqueta: " +this.etiqueta);
 		}
 		
 }

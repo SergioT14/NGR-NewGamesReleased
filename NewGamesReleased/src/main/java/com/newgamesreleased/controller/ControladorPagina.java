@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -65,9 +64,7 @@ public class ControladorPagina {
 	
 	// Inicio de sesion
 	@GetMapping("/login")
-	public String login(Model model, HttpServletRequest request) {
-		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
-		model.addAttribute("token", token.getToken()); 
+	public String login() {
 		return "login";
 	}
 
@@ -75,12 +72,6 @@ public class ControladorPagina {
 	@GetMapping("/loginerror")
 	public String loginerror() {
 		return "loginerror";
-	}
-
-	// error general
-	@GetMapping("/error")
-	public String error() {
-		return "error";
 	}
 	
 	//Registro
@@ -361,6 +352,7 @@ public class ControladorPagina {
 		model.addAttribute("id", id);
 		model.addAttribute("nombre", usuario.getNombre());
 		model.addAttribute("contrasenya", usuario.getContrasenya());
+		model.addAttribute("email", usuario.getEmail());
 		
 		return "usuarios/editar_usuario";
 	}

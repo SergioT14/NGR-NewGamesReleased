@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 	
@@ -25,6 +27,7 @@ public class User {
 	private List<Rating> valoraciones = new ArrayList<>();
 	
 	@ManyToMany
+	@JsonIgnore
 	List <Tag> suscripciones = new ArrayList<>();
 	
 	public User() {

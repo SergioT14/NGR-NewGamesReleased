@@ -47,10 +47,13 @@ public class ControladorPagina {
 	@GetMapping("/")
 	@RequestMapping(method = RequestMethod.GET)
 	public String inicio(Model model, HttpServletRequest req) {
-		String nombre = req.getUserPrincipal().getName();
-		User u = userRepository.getByNombre(nombre);
+		if(req.getUserPrincipal()!=null) {
+			String nombre = req.getUserPrincipal().getName();
+			User u = userRepository.getByNombre(nombre);
 
-		model.addAttribute("nombreuser", u.getNombre());
+			model.addAttribute("nombreuser", u.getNombre());
+		} else model.addAttribute("nombreuser", "INVITADO");
+		
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		model.addAttribute("admin", req.isUserInRole("ADMIN"));
@@ -96,13 +99,17 @@ public class ControladorPagina {
 	// Pagina de gestion de etiquetas
 	@GetMapping("/etiquetas")
 	public String etiquetas(Model model, HttpServletRequest req) {
+		if(req.getUserPrincipal()!=null) {
+			String nombre = req.getUserPrincipal().getName();
+			User u = userRepository.getByNombre(nombre);
+
+			model.addAttribute("nombreuser", u.getNombre());
+		} else model.addAttribute("nombreuser", "INVITADO");
+		
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
 		model.addAttribute("admin", req.isUserInRole("ADMIN"));
-		String nombre = req.getUserPrincipal().getName();
-		User u = userRepository.getByNombre(nombre);
-
-		model.addAttribute("nombreuser", u.getNombre());
+		
 		model.addAttribute("tipo","etiquetas");
 		model.addAttribute("contenido","todas las etiquetas para buscar de manera filtrada");
 		model.addAttribute("tags", tagRepository.findAll());
@@ -183,13 +190,16 @@ public class ControladorPagina {
 	// Pagina de buscar por etiqueta
 	@GetMapping("/buscar-tag/{id}")
 	public String buscarTag(Model model, @PathVariable long id, HttpServletRequest req) {
-		String nombre = req.getUserPrincipal().getName();
-		User u = userRepository.getByNombre(nombre);
+		if(req.getUserPrincipal()!=null) {
+			String nombre = req.getUserPrincipal().getName();
+			User u = userRepository.getByNombre(nombre);
 
-		model.addAttribute("nombreuser", u.getNombre());
+			model.addAttribute("nombreuser", u.getNombre());
+		} else model.addAttribute("nombreuser", "INVITADO");
 		
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
+		
 		Tag t = tagRepository.getById(id);
 		model.addAttribute("id",id);
 		model.addAttribute("tipo","búsqueda por etiquetas");
@@ -202,10 +212,12 @@ public class ControladorPagina {
 	// Pagina de buscar
 	@GetMapping("/buscar")
 	public String buscar(Model model, @RequestParam String texto, HttpServletRequest req) {
-		String nombre = req.getUserPrincipal().getName();
-		User u = userRepository.getByNombre(nombre);
+		if(req.getUserPrincipal()!=null) {
+			String nombre = req.getUserPrincipal().getName();
+			User u = userRepository.getByNombre(nombre);
 
-		model.addAttribute("nombreuser", u.getNombre());
+			model.addAttribute("nombreuser", u.getNombre());
+		} else model.addAttribute("nombreuser", "INVITADO");
 		
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
@@ -236,10 +248,12 @@ public class ControladorPagina {
 	// Pagina de visualizacion de post
 	@GetMapping("/post/{id}")
 	public String verPost(Model model, @PathVariable long id, HttpServletRequest req) {
-		String nombre = req.getUserPrincipal().getName();
-		User u = userRepository.getByNombre(nombre);
+		if(req.getUserPrincipal()!=null) {
+			String nombre = req.getUserPrincipal().getName();
+			User u = userRepository.getByNombre(nombre);
 
-		model.addAttribute("nombreuser", u.getNombre());
+			model.addAttribute("nombreuser", u.getNombre());
+		} else model.addAttribute("nombreuser", "INVITADO");
 		
 		Post p = postRepository.findById(id).get();
 		if(p.getEtiqueta() == null) 

@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,8 @@ public class ControladorPagina {
 	@Autowired
 	private PostService postService;
 
+	@Autowired
+	private PasswordEncoder passEncoder;
 	
 	@PostConstruct
 	public void init() {
@@ -92,6 +95,8 @@ public class ControladorPagina {
 	//Registro completado
 	@PostMapping("/signup-ok")
 	public String registrado(Model model, User usuario) {
+		if(userRepository.getByNombre( usuario.getNombre() ) != null) return "userexists";
+		usuario.setContrasenya(passEncoder.encode(usuario.getContrasenya()));
 		userRepository.save(usuario);
 		return "registro_completado";
 	}
@@ -379,10 +384,12 @@ public class ControladorPagina {
 	// Pagina de gestion de usuarios
 	@GetMapping("/usuarios")
 	public String usuarios(Model model, HttpServletRequest req) {
-		String nombre = req.getUserPrincipal().getName();
-		User u = userRepository.getByNombre(nombre);
+		if(req.getUserPrincipal()!=null) {
+			String nombre = req.getUserPrincipal().getName();
+			User u = userRepository.getByNombre(nombre);
 
-		model.addAttribute("nombreuser", u.getNombre());
+			model.addAttribute("nombreuser", u.getNombre());
+		} else model.addAttribute("nombreuser", "INVITADO");
 		
 		model.addAttribute("notauser", req.getUserPrincipal()==null);
 		model.addAttribute("auser", req.getUserPrincipal()!=null);
@@ -414,7 +421,7 @@ public class ControladorPagina {
 		
 		model.addAttribute("id", id);
 		model.addAttribute("nombre", usuario.getNombre());
-		model.addAttribute("contrasenya", usuario.getContrasenya());
+		model.addAttribute("contrasenya", "");
 		model.addAttribute("email", usuario.getEmail());
 		
 		return "usuarios/editar_usuario";
@@ -424,6 +431,7 @@ public class ControladorPagina {
 	@PostMapping("/usuarios/editar-usuario/usuario-editado/{id}")
 	public String usuarioEditado(Model model, User usuarioModificado, @PathVariable long id) {
 		usuarioModificado.setId(id);
+		usuarioModificado.setContrasenya(passEncoder.encode(usuarioModificado.getContrasenya()));
 		userRepository.save(usuarioModificado);
 		
 		model.addAttribute("solicitud", "Usuario modificado correctamente");

@@ -15,9 +15,11 @@
 	<input type="submit" value="Etiquetas" />
 </form>
 
+{{#admin}}
 <form action="usuarios">
 	<input type="submit" value="Usuarios" />
 </form>
+{{/admin}}	
 	
 <form action="buscar">
 	<input type='text' name='texto' />
@@ -34,9 +36,9 @@
 </form>
 {{/notauser}}
 
-{{#auser}}
-				<b>{{nombreuser}}</b>
+<b>{{nombreuser}}</b>
 
+{{#auser}}
 <form action="logout">
     <input type="submit" value="Cerrar sesión" />
 </form>

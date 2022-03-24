@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Rating {
 
@@ -14,6 +16,7 @@ public class Rating {
 		private long id;
 		
 		@ManyToOne
+		@JsonIgnore
 		private User usuario;
 		
 		private String texto;

@@ -5,17 +5,20 @@
 	<p>Contenido: {{post.contenido}}</p>
 	<p>Etiqueta: {{etiqueta}}</p>
 			
-	
+	{{#auser}}
 	<form action="crear-valoracion/{{idPost}}">
 		<input type="submit" value="Valora este post" />
 	</form>
+	{{/auser}}
 	
 	<a href="/">Volver al inicio</a>
 	
 {{#valoraciones}}
 <p> {{usuario}} - {{puntuacion}} <p>
 <p> {{texto}} <p>
+{{#admin}}
 <a href="/post/borrar-valoracion/{{idPost}}/{{id}}" onclick="return confirm('¿Estas seguro?')"> Borrar</a>
+{{/admin}}
 {{/valoraciones}}
 </body>
 </html>

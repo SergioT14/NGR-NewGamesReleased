@@ -26,7 +26,7 @@ public class User {
 	private String email;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> roles;
+	private List<String> roles = new ArrayList<>();
 	
 	@OneToMany(mappedBy ="usuario")
 	private List<Rating> valoraciones = new ArrayList<>();
@@ -83,6 +83,14 @@ public class User {
 
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
+	}
+	
+	public void addRol(String rol) {
+		this.roles.add(rol);
+	}
+	
+	public void removeRol(String rol) {
+		this.roles.remove(rol);
 	}
 
 	public List<Tag> getSuscripciones() {

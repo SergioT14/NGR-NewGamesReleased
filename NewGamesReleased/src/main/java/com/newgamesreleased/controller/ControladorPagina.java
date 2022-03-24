@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.newgamesreleased.configs.RepositoryUserDetailsService;
 import com.newgamesreleased.model.*;
 import com.newgamesreleased.repository.*;
 import com.newgamesreleased.service.PostService;
@@ -97,6 +98,7 @@ public class ControladorPagina {
 	public String registrado(Model model, User usuario) {
 		if(userRepository.getByNombre( usuario.getNombre() ) != null) return "userexists";
 		usuario.setContrasenya(passEncoder.encode(usuario.getContrasenya()));
+		usuario.addRol("USER");		
 		userRepository.save(usuario);
 		return "registro_completado";
 	}
@@ -260,6 +262,9 @@ public class ControladorPagina {
 			model.addAttribute("nombreuser", u.getNombre());
 		} else model.addAttribute("nombreuser", "INVITADO");
 		
+		model.addAttribute("auser", req.getUserPrincipal()!=null);
+		model.addAttribute("admin", req.isUserInRole("ADMIN"));
+		
 		Post p = postRepository.findById(id).get();
 		if(p.getEtiqueta() == null) 
 			model.addAttribute("etiqueta", "None");
@@ -343,7 +348,6 @@ public class ControladorPagina {
 		
 		model.addAttribute("tipo","crear una valoracion");
 		model.addAttribute("id", id);
-		model.addAttribute("usuarios",userRepository.findAll());
 		
 		return "valoraciones/nueva_valoracion";
 	}
@@ -351,10 +355,10 @@ public class ControladorPagina {
 	// Pagina de creacion de valoracion (2)
 	@PostMapping("post/crear-valoracion/valoracion-creada/{id}")
 	public String ratingCreate(Model model, @PathVariable long id, @RequestParam String texto, 
-			@RequestParam String puntuacion , @RequestParam String usuario) {
+			@RequestParam String puntuacion, HttpServletRequest req) {
 		
 		int punt = Integer.parseInt(puntuacion);
-		User u = userRepository.getByNombre(usuario);
+		User u = userRepository.getByNombre(req.getUserPrincipal().getName());
 		Rating r = new Rating(u,texto,punt);
 		u.addRating(r);
 		
@@ -440,12 +444,14 @@ public class ControladorPagina {
 	
 	// Pagina de suscripcion
 	@PostMapping("/suscribirse/{id}")
-	public String suscribirseAEtiqueta(Model model, @PathVariable long id) {
+	public String suscribirseAEtiqueta(Model model, @PathVariable long id, HttpServletRequest req) {
 		Tag etiqueta = tagRepository.findById(id).get();
-		User usuarioAdmin = userRepository.findById((long)3).get();
-		usuarioAdmin.addSuscripcion(etiqueta);
-		userRepository.save(usuarioAdmin);
-		tagRepository.save(etiqueta);
+		User usuario = userRepository.getByNombre(req.getUserPrincipal().getName());
+		if (!usuario.getSuscripciones().contains(etiqueta)) {
+			usuario.addSuscripcion(etiqueta);
+			userRepository.save(usuario);
+			tagRepository.save(etiqueta);
+		}
 		
 		model.addAttribute("solicitud", "Suscripcion realizada con exito");
 		
@@ -454,12 +460,14 @@ public class ControladorPagina {
 	
 	// Pagina de desuscripcion
 	@PostMapping("/desuscribirse/{id}")
-	public String desuscribirseDeEtiqueta(Model model, @PathVariable long id) {
+	public String desuscribirseDeEtiqueta(Model model, @PathVariable long id, HttpServletRequest req) {
 		Tag etiqueta = tagRepository.findById(id).get();
-		User usuarioAdmin = userRepository.findById((long)3).get();
-		usuarioAdmin.removeSuscripcion(etiqueta);
-		userRepository.save(usuarioAdmin);
-		tagRepository.save(etiqueta);
+		User usuario = userRepository.getByNombre(req.getUserPrincipal().getName());
+		if (usuario.getSuscripciones().contains(etiqueta)) {
+			usuario.removeSuscripcion(etiqueta);
+			userRepository.save(usuario);
+			tagRepository.save(etiqueta);
+		}
 		
 		model.addAttribute("solicitud", "Desuscripcion realizada con exito");
 		

@@ -23,15 +23,18 @@
 	
 <form action="buscar">
 	<input type='text' name='texto' />
+	<input type="hidden" name="_csrf" value="{{token}}"/>
 	<input type="submit" value="Búsqueda" />
 </form>
 
 {{#notauser}}
 <form action="login">
+	<input type="hidden" name="_csrf" value="{{token}}"/>
     <input type="submit" value="Iniciar sesion" />
 </form>
 
 <form action="signup">
+	<input type="hidden" name="_csrf" value="{{token}}"/>
     <input type="submit" value="Registrarse" />
 </form>
 {{/notauser}}
@@ -39,7 +42,8 @@
 <b>{{nombreuser}}</b>
 
 {{#auser}}
-<form action="logout">
+<form action="/logout" method="post">
+	<input type="hidden" name="_csrf" value="{{token}}"/>
     <input type="submit" value="Cerrar sesión" />
 </form>
 {{/auser}}

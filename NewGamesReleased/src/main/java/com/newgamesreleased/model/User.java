@@ -88,7 +88,7 @@ public class User {
 	public void addRol(String rol) {
 		this.roles.add(rol);
 	}
-	
+
 	public void removeRol(String rol) {
 		this.roles.remove(rol);
 	}

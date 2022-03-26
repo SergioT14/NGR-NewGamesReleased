@@ -10,7 +10,7 @@
 	
 	<p>Contenido:</p>
 	<p><textarea name='contenido' rows='10' cols='50' style="resize:none">{{contenido}}</textarea></p>
-	
+	<input type="hidden" name="_csrf" value="{{token}}"/>
 	<input type='submit' value='Enviar'>
 </form>
 <p><a href="/">Volver al feed</a></p>

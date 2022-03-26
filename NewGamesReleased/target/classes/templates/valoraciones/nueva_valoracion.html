@@ -1,6 +1,9 @@
 <p>Hola {{nombreuser}}, estás en la pestaña de {{tipo}}</p>
 
 <form action="valoracion-creada/{{id}}" method="post">
+<p>Hola {{nombreuser}}, estás en la pestaña de {{tipo}}</p>
+
+<form action="valoracion-creada/{{id}}" method="post">
 	
 	<p>Valoracion:</p>
 	<p><textarea name='texto' rows='10' cols='50' style="resize:none"></textarea></p>
@@ -14,6 +17,7 @@
 		<option>4</option>
 		<option>5</option>
 	</select>	
+	<input type="hidden" name="_csrf" value="{{token}}"/>
 	<input type ='submit' value='Enviar'>
 	<p><a href="/post/{{id}}">Volver al post</a></p>
 	

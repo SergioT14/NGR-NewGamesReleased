@@ -10,9 +10,11 @@
 <p><a href="buscar-tag/{{id}}">{{nombre}}</a>	
 {{#auser}}		
 <form action = "suscribirse/{{id}}" method="post">
+	<input type="hidden" name="_csrf" value="{{token}}"/>
 	<input type="submit" value="Suscribirse"/>
 </form>
 <form action = "desuscribirse/{{id}}" method = "post">
+	<input type="hidden" name="_csrf" value="{{token}}"/>
 	<input type="submit" value="Desuscribirse"/>
 </form>
 {{/auser}}

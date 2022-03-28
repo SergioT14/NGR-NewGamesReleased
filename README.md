@@ -17,6 +17,7 @@ El servicio interno que se ofrece es un servicio de newsletter, donde se enviar�
 Los archivos JAR se encuentran en el siguiente enlace por si no se quieren compilar: https://urjc-my.sharepoint.com/:f:/g/personal/d_alfonsel_2019_alumnos_urjc_es/ElvnUP4thNVBp48c16TPzSMB_0Z1OdjCg-KL6re7y9_0bw?e=e2nWg7
 
 Para compilarlo a través de STS basta con hacer click derecho sobre el proyecto, buscar la opción 'Run as', y dentro de esta, la opción de 'Maven build...':
+
 ![image](https://user-images.githubusercontent.com/98475235/160368073-79376f66-4e92-44dd-a1a1-6b0a4ae70156.png)
 
 Una vez en el menú, hay que añadir en el campo 'Goals' la palabra 'package'. Hay que desactivar los test, ya que dan error:

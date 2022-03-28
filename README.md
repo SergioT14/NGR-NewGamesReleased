@@ -14,6 +14,19 @@ Las entidades son las siguientes:
 
 El servicio interno que se ofrece es un servicio de newsletter, donde se enviarán al correo asociado al usuario novedades sobre las etiquetas que el usuario esté siguiendo.
 
+Para desplegar la aplicación y el servicio interno es necesario instalar lo siguiente:
+
+  - MySQL Community Installer: https://dev.mysql.com/downloads/installer/
+    * Hay que hacer una instalación Custom (no se necesita todo). Basta con instalar MySQL Server y MySQL Workbench
+    * Es posible que sea necesario instalar cualquier versión de Python 3.x: https://www.python.org/downloads/
+  - Java 11 o superior
+  - RabbitMQ: https://www.rabbitmq.com/
+    * Es necesario instalar Erlang 23 o superior: https://www.erlang.org/downloads 
+
+Tras instalar todo lo necesario, antes de arrancar la aplicación es necesario crear el esquema. Para ello simplemente hay que acceder a la base de datos a través del Workbench. Una vez se ha accedido (debería haber un perfil ya creado por el instalador de la comunidad), crear un esquema con el nombre 'bbdd' (sin las comillas).
+
+Los archivos JAR se encuentran en el siguiente enlace: https://urjc-my.sharepoint.com/:f:/g/personal/d_alfonsel_2019_alumnos_urjc_es/ElvnUP4thNVBp48c16TPzSMB_0Z1OdjCg-KL6re7y9_0bw?e=e2nWg7
+
 Las distintas clases y sus relaciones se pueden ver en el siguiente diagrama UML:
 
 ![c5dd065e-66b7-4e9e-860d-42e5bfee5e1d](https://user-images.githubusercontent.com/93717547/160298147-44255b05-520d-49c0-9f38-359ae36af60e.jpg)
@@ -46,11 +59,11 @@ Pestaña de búsqueda tras haber escrito en el recuadro lo que queremos buscar. 
 
 Vista del post tras entrar a él, con las valoraciones debajo, opción de crear una nueva y de eliminar alguna existente:
 
-![post](https://user-images.githubusercontent.com/93717547/155188317-b5eb04eb-9731-4a38-b6a4-891b3bf7ad12.png)
+![image](https://user-images.githubusercontent.com/98475235/160363815-1c5bf1b8-658e-4e53-9936-1d9d7bf7687b.png)
 
 Vista de creación de valoración en un post:
 
-![crearvaloracion](https://user-images.githubusercontent.com/93717547/155188484-6c2747c8-f3b4-4d40-92af-740208fa33dd.png)
+![image](https://user-images.githubusercontent.com/98475235/160363745-bd20e60b-0a3f-42ae-8acb-377a97190609.png)
 
 Pestaña de registro:
 

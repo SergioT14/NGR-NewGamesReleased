@@ -14,6 +14,16 @@ Las entidades son las siguientes:
 
 El servicio interno que se ofrece es un servicio de newsletter, donde se enviarán al correo asociado al usuario novedades sobre las etiquetas que el usuario esté siguiendo.
 
+Los archivos JAR se encuentran en el siguiente enlace por si no se quieren compilar: https://urjc-my.sharepoint.com/:f:/g/personal/d_alfonsel_2019_alumnos_urjc_es/ElvnUP4thNVBp48c16TPzSMB_0Z1OdjCg-KL6re7y9_0bw?e=e2nWg7
+
+Para compilarlo a través de STS basta con hacer click derecho sobre el proyecto, buscar la opción 'Run as', y dentro de esta, la opción de 'Maven build...':
+![image](https://user-images.githubusercontent.com/98475235/160368073-79376f66-4e92-44dd-a1a1-6b0a4ae70156.png)
+
+Una vez en el menú, hay que añadir en el campo 'Goals' la palabra 'package'. Hay que desactivar los test, ya que dan error:
+![image](https://user-images.githubusercontent.com/98475235/160370172-3419832d-7662-4baa-87f2-41eac89456bd.png)
+
+Realizar el mismo proceso con el servicio interno.
+
 Para desplegar la aplicación y el servicio interno es necesario instalar lo siguiente:
 
   - MySQL Community Installer: https://dev.mysql.com/downloads/installer/
@@ -23,9 +33,24 @@ Para desplegar la aplicación y el servicio interno es necesario instalar lo sig
   - RabbitMQ: https://www.rabbitmq.com/
     * Es necesario instalar Erlang 23 o superior: https://www.erlang.org/downloads 
 
-Tras instalar todo lo necesario, antes de arrancar la aplicación es necesario crear el esquema. Para ello simplemente hay que acceder a la base de datos a través del Workbench. Una vez se ha accedido (debería haber un perfil ya creado por el instalador de la comunidad), crear un esquema con el nombre 'bbdd' (sin las comillas).
+Tras instalar todo lo necesario, antes de arrancar la aplicación es necesario crear el esquema. Para ello simplemente hay que acceder a la base de datos a través del Workbench. Una vez se ha accedido (debería haber un perfil ya creado por el instalador de la comunidad), crear un esquema con el nombre 'bbdd' (sin las comillas). No es necesario configurar el servidor RabbitMQ, de eso ya se encarga el servicio interno cuando arranca.
 
-Los archivos JAR se encuentran en el siguiente enlace: https://urjc-my.sharepoint.com/:f:/g/personal/d_alfonsel_2019_alumnos_urjc_es/ElvnUP4thNVBp48c16TPzSMB_0Z1OdjCg-KL6re7y9_0bw?e=e2nWg7
+Una vez realizado todo esto, abrir dos shells en las carpetas donde se encuentran los JAR. Para más comodidad se recomienda guardarlos juntos. En la primera shell introducir el comando
+
+  java -jar ./NewGamesReleased.jar
+
+Se sabrá que se ha iniciado correctamente porque aparece la siguiente linea al final:
+![image](https://user-images.githubusercontent.com/98475235/160371225-cea9e38f-91e9-4756-8c05-15095d231d5e.png)
+
+Una vez se ha visto esa linea, proceder a iniciar el servicio interno, con el comando
+
+  java -jar ./InternalServiceNGR.jar
+
+De igual forma, esta linea indica que se ha inciado correctamente:
+![image](https://user-images.githubusercontent.com/98475235/160371995-6364f019-6023-4d50-a5a2-5bfab201a28d.png)
+
+Cada vez que se cree un nuevo post, este se enviará al servicio interno. Para saber si el servicio interno ha recibido el post, en la shell aparece un mensaje de que se ha recibido un post y se puede visualizar su información. Por ejemplo:
+![image](https://user-images.githubusercontent.com/98475235/160372438-86a3f479-a697-4763-bedf-58fee928a932.png)
 
 Las distintas clases y sus relaciones se pueden ver en el siguiente diagrama UML:
 

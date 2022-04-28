@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,9 @@ public class ControladorPagina {
 
 	@Autowired
 	private PasswordEncoder passEncoder;
+	
+	@Autowired
+	private CacheManager cacheManager;
 
 	@PostConstruct
 	public void init() {
@@ -286,6 +290,8 @@ public class ControladorPagina {
 		e.addPost(p);
 		postRepository.save(p);
 
+		cacheManager.getCache("posts").clear();
+		
 		postService.enviar(p);
 
 		model.addAttribute("solicitud", "Post creado correctamente");

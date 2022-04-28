@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class NewGamesRealeasedApplication {
 	
-	private final String host = "localhost";
+	private final String host = "ngr-rabbitmq";
 	private final String username = "guest";
 	private final String password = "guest";
 

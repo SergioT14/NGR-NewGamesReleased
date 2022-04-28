@@ -40,7 +40,7 @@ public class PostReceiverService implements RabbitListenerConfigurer{
 			SimpleMailMessage mensaje = new SimpleMailMessage();
 			mensaje.setFrom("newgamesreleaseddad@gmail.com");
 			mensaje.setTo(email);
-			mensaje.setSubject("Nuevo post en etiqueta" + etiquetaPost);
+			mensaje.setSubject("Nuevo post en etiqueta " + etiquetaPost);
 			mensaje.setText("Se ha publicado un nuevo post en la etiqueta " + etiquetaPost + " a la que estas sucrito:\n" + post);
 			emailSender.send(mensaje);
 		}

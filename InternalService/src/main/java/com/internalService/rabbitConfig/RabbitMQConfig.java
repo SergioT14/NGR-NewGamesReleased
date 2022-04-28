@@ -17,7 +17,7 @@ public class RabbitMQConfig {
 	private String routingKey = "post";
 	private String username = "guest";
 	private String password = "guest";
-	private String host = "localhost";
+	private String host = "ngr-rabbitmq";
 	
 	@Bean
 	Queue crearCola() {

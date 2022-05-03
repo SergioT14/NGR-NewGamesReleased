@@ -42,12 +42,6 @@ public class ControladorPagina {
 
 	@PostConstruct
 	public void init() {
-
-		Tag e1 = new Tag("LeagueOfLegends");
-		Tag e2 = new Tag("Juegos");
-		tagRepository.save(e1);
-		tagRepository.save(e2);
-
 	}
 
 	// Pagina de inicio

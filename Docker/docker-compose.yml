@@ -11,6 +11,8 @@ services:
         
     ngr-mysql:
         image: mysql
+        volumes:
+         - ./Database/:/var/lib/mysql
         environment:
          - MYSQL_ROOT_PASSWORD=root
          - MYSQL_DATABASE=bbdd
@@ -26,7 +28,7 @@ services:
          - ngr-intserv
          - ngr-rabbitmq
         restart: on-failure
-    
+        
     ngr-app-2:
         image: danigaralfo/ngr_web
         depends_on:

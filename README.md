@@ -1,4 +1,7 @@
 # NGR-NewGamesReleased
+Vídeo con el funcionamiento de la aplicación a continuación (redirección a Youtube)
+
+[![NewGamesReleased](https://img.youtube.com/vi/ZW-W-05kXK0/0.jpg)](https://www.youtube.com/watch?v=ZW-W-05kXK0)
 
 La aplicación web se trata de una especie de foro donde los administradores de la misma colgarán "posts" pequeños
 relacionados con ofertas y novedades en las distintas plataformas de videojuegos.
@@ -21,6 +24,7 @@ Para compilarlo a través de STS basta con hacer click derecho sobre el proyecto
 ![image](https://user-images.githubusercontent.com/98475235/160368073-79376f66-4e92-44dd-a1a1-6b0a4ae70156.png)
 
 Una vez en el menú, hay que añadir en el campo 'Goals' la palabra 'package'. Hay que desactivar los test, ya que dan error:
+
 ![image](https://user-images.githubusercontent.com/98475235/160370172-3419832d-7662-4baa-87f2-41eac89456bd.png)
 
 Realizar el mismo proceso con el servicio interno.
@@ -59,12 +63,12 @@ La infraestructura de docker-compose es la siguiente:
 
 Como se observa, el usuario se enfrenta al HAProxy. Este balancea la carga entre las dos aplicaciones. Ambas aplicaciones envian y reciben datos de la base de datos, y envían mensajes a la cola de RabbitMQ. Por su parte, el servicio interno también envía y recibe mensajes de la base de datos y recoge los mensajes de la cola de mensajes.
 
-Las distintas clases y sus relaciones se pueden ver en el siguiente diagrama UML:
+Las distintas clases y sus relaciones se pueden ver en los siguiente diagrama UML:
 
-
-![c5dd065e-66b7-4e9e-860d-42e5bfee5e1d](https://user-images.githubusercontent.com/93717547/160298147-44255b05-520d-49c0-9f38-359ae36af60e.jpg)
-![c44a56b8-4e01-43f6-abb3-84c709fd3db6](https://user-images.githubusercontent.com/93717547/160298162-8c288f4e-1111-4d43-aafe-afd1eeea5fad.jpg)
-![b1f85d79-e184-470e-986b-3cfae604d5ed](https://user-images.githubusercontent.com/93717547/160298167-12e64bfe-44e5-414b-98a8-04740bb5b0ed.jpg)
+![Controlador de página con los repositorios](https://user-images.githubusercontent.com/93717547/160298147-44255b05-520d-49c0-9f38-359ae36af60e.jpg)
+![Clases model](https://user-images.githubusercontent.com/93717547/160298162-8c288f4e-1111-4d43-aafe-afd1eeea5fad.jpg)
+![Servicio interno con la aplicación](https://user-images.githubusercontent.com/93717547/160298167-12e64bfe-44e5-414b-98a8-04740bb5b0ed.jpg)
+![Configuraciones, usuarios y caché](https://user-images.githubusercontent.com/93717547/167473166-8630e655-df88-47cb-961a-738b7ba73188.png)
 
 Esquema de las relaciones entre los modelos:
 

@@ -53,7 +53,14 @@ De igual forma, esta linea indica que se ha inciado correctamente:
 Cada vez que se cree un nuevo post, este se enviará al servicio interno. Para saber si el servicio interno ha recibido el post, en la shell aparece un mensaje de que se ha recibido un post y se puede visualizar su información. Por ejemplo:
 ![image](https://user-images.githubusercontent.com/98475235/160372438-86a3f479-a697-4763-bedf-58fee928a932.png)
 
+La infraestructura de docker-compose es la siguiente:
+
+![dsf (1)](https://user-images.githubusercontent.com/98475235/167470735-73f9eab3-d541-406f-bf90-f1be8835ffdc.jpg)
+
+Como se observa, el usuario se enfrenta al HAProxy. Este balancea la carga entre las dos aplicaciones. Ambas aplicaciones envian y reciben datos de la base de datos, y envían mensajes a la cola de RabbitMQ. Por su parte, el servicio interno también envía y recibe mensajes de la base de datos y recoge los mensajes de la cola de mensajes.
+
 Las distintas clases y sus relaciones se pueden ver en el siguiente diagrama UML:
+
 
 ![c5dd065e-66b7-4e9e-860d-42e5bfee5e1d](https://user-images.githubusercontent.com/93717547/160298147-44255b05-520d-49c0-9f38-359ae36af60e.jpg)
 ![c44a56b8-4e01-43f6-abb3-84c709fd3db6](https://user-images.githubusercontent.com/93717547/160298162-8c288f4e-1111-4d43-aafe-afd1eeea5fad.jpg)
